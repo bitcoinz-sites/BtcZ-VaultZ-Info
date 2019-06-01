@@ -1,0 +1,28 @@
+{
+  "name": "BtcZ-VaultZ-Info",
+  "version": "0.1.0",
+  "description": "BitcoinZ VaultZ Information board",
+  "main": "btcz-vaultz-info.js",
+  "repository": "https://github.com/MarceluCH/BtcZ-VaultZ-Info",
+  "license": "MIT",
+  "author": "Marcelus",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "ejs": "^2.6.1",
+    "express": "^4.16.2",
+    "jayson": "^2.0.4",
+    "mocha": "^4.0.1",
+    "morgan": "^1.9.0",
+    "node-uuid": "^1.4.8",
+    "qr-image": "^3.2.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "rewire": "^2.5.2",
+    "sinon": "^4.1.2",
+    "standard": "^8.6.0",
+    "supertest": "^3.0.0",
+    "valid-url": "^1.0.9",
+    "winston": "^3.0.0"
+  }
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+
+
+      <title>BITCOINz VaultZ info</title>
+
+
+  </head>
+
+  <body>
+
+
+    <hr/>
+
+
+    <span>Date : <%= DateAtBlock %></span><br/>
+    <span>Block Height : <%= BlockHeiht %></span><br/><br/>
+
+    <span>VaultZ total : <%= VaultZ_Tot %> BTCz</span>
+    <hr/><br/>
+
+
+    <table id="VaultZ_Add_List">
+      <tr>
+        <th>Address</th>
+        <th>Balance</th>
+      </tr>
+    </table>
+
+
+
+  </body>
+
+
+
+
+  <script>
+
+    function tableCreate() {
+
+      var tbl = document.getElementById('VaultZ_Add_List');
+
+      var AddStr = "<%= VaultZ_Add_List %>";
+      var VaultZ_Add_List = AddStr.split(",");
+
+      var BalStr = "<%= VaultZ_Add_Bal %>";
+      var VaultZ_Add_Bal = BalStr.split(",");
+
+
+      for (i = 0; i < <%= VaultZ_Add_Count %>; i++){
+
+        var tr = document.createElement('tr');
+        var td_Add = document.createElement('td');
+        var td_Bal = document.createElement('td');
+
+        td_Add.innerHTML = VaultZ_Add_List[i];
+        td_Bal.innerHTML = VaultZ_Add_Bal[i];
+
+        tr.appendChild(td_Add);
+        tr.appendChild(td_Bal);
+        tbl.appendChild(tr);
+
+      }
+
+    }
+
+    tableCreate();
+  </script>
+
+
+
+</html>
