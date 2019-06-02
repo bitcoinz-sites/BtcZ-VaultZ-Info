@@ -169,7 +169,7 @@ setInterval(() => RetreiveVaultZinfo(), 60 * 1000 *5)
 
 // Startup server
 let server = app.listen(config.port, '127.0.0.1', function () {
-  console.log('BOOTING UP', ['Listening on port %d', config.port])
+  console.log('BOOTING UP', `Listening on port ${config.port}`)
 })
 
 module.exports = server
