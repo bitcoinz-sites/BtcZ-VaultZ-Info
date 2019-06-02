@@ -1,3 +1,23 @@
+/*
+ * Copyright 2019 The BitcoinZ Project
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to
+ * do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ * OR COPYRIGHTHOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 
 
@@ -57,15 +77,32 @@ global.AddressesBalance = [];               // VaultZ Addresses balance []
 global.VaultZ_used_addresses = 0;           // VaultZ used addresses count
 global.VaultZ_Tot = 0;                      // VaultZ Actual TOT Balance
 
+global.usdValue = 0;
 
 
 // Retreive VaultZ info function
 async function RetreiveVaultZinfo () {
   try {
 
-    // get the block height
-    let apiCall = "http://btczexplorer.blockhub.info/api/getblockcount";
+    let usdRate = 0;
+
+    // get the exchange rate
+    let apiCall = "http://pay.btcz.app/api/get_btcz_rate";
     let requestOptions = {
+      method: 'GET',
+      uri: apiCall
+    };
+
+    await rp(requestOptions).then(response => {
+       const objectValue = JSON.parse(response);
+       usdRate = Number(objectValue.USD);
+    }).catch((err) => {
+      console.error({ err })
+    });
+
+    // get the block height
+    apiCall = "http://btczexplorer.blockhub.info/api/getblockcount";
+    requestOptions = {
       method: 'GET',
       uri: apiCall
     };
@@ -98,8 +135,6 @@ async function RetreiveVaultZinfo () {
           CountUsed += 1;
           global.AddressesBalance[i] = Number(response);
           Tot += Number(response);
-        } else {
-          global.AddressesBalance[i] = 0;
         }
       }).catch((err) => {
         console.error({ err })
@@ -109,12 +144,21 @@ async function RetreiveVaultZinfo () {
     } // End for
 
     global.VaultZ_used_addresses = CountUsed;
-    global.VaultZ_Tot = Tot;
+    global.VaultZ_Tot = numberWithSpaces(Tot);
+
+
+    global.usdValue = numberWithSpaces((Tot*usdRate).toFixed(2))
 
 
   } catch (error) {
     console.error('RetreiveVaultZinfo function', [ error.message, error.stack ])
   } // end try
+}
+
+function numberWithSpaces(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return parts.join(".");
 }
 
 
