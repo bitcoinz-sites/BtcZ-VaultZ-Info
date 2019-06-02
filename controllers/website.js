@@ -22,13 +22,8 @@
 
 
 const express = require('express')
-const app = express();
 const router = express.Router()
-const qr = require('qr-image')
-const fs = require('fs')
 const path = require('path');
-const config = require('../config');
-const rp = require('request-promise');
 
 
 
