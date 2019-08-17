@@ -20,12 +20,9 @@
  */
 
 
-
 const express = require('express')
 const router = express.Router()
 const path = require('path');
-
-
 
 
 // Route for the index main page
@@ -33,15 +30,11 @@ router.get('/', function (req, res) {
   (async function () {
 
 
-
-
-
-
-
     // Render page
     return res.render(path.join(__dirname + '/../docs/index.html'), {
         VaultZ_Tot: global.VaultZ_Tot,
         USD_Tot: global.usdValue,
+        BTC_Tot: global.btcValue,
         VaultZ_Add_Count: global.AddressesCount,
         VaultZ_Add_List: global.AddressesList,
         VaultZ_Add_Bal: global.AddressesBalance,
@@ -55,7 +48,6 @@ router.get('/', function (req, res) {
     res.status(500).send('500')
   }) // end async function
 })
-
 
 
 

@@ -25,9 +25,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
-const uuid = require('node-uuid')
+const uuid = require('uuid')
 const bodyParser = require('body-parser')
-const rp = require('request-promise')
+const rp = require('request-promise-native')
 const config = require('./config')
 
 const VaultZ = require('./VaultZ-addresses');
@@ -78,6 +78,7 @@ global.VaultZ_used_addresses = 0;           // VaultZ used addresses count
 global.VaultZ_Tot = 0;                      // VaultZ Actual TOT Balance
 
 global.usdValue = 0;
+global.btcValue = 0;
 
 
 // Retreive VaultZ info function
@@ -85,6 +86,7 @@ async function RetreiveVaultZinfo () {
   try {
 
     let usdRate = 0;
+    let btcRate = 0;
 
     // get the exchange rate
     let apiCall = "http://pay.btcz.app/api/get_btcz_rate";
@@ -96,6 +98,7 @@ async function RetreiveVaultZinfo () {
     await rp(requestOptions).then(response => {
        const objectValue = JSON.parse(response);
        usdRate = Number(objectValue.USD);
+       btcRate = Number(objectValue.BTC);
     }).catch((err) => {
       console.error({ err })
     });
@@ -128,8 +131,6 @@ async function RetreiveVaultZinfo () {
         uri: apiCall
       };
 
-
-
       await rp(requestOptions).then(response => {
         if (!response.includes("address not found.")){
           CountUsed += 1;
@@ -140,14 +141,13 @@ async function RetreiveVaultZinfo () {
         console.error({ err })
       });
 
-
     } // End for
 
     global.VaultZ_used_addresses = CountUsed;
-    global.VaultZ_Tot = numberWithSpaces(Tot);
-
+    global.VaultZ_Tot = numberWithSpaces(Tot.toFixed(0));
 
     global.usdValue = numberWithSpaces((Tot*usdRate).toFixed(2))
+    global.btcValue = numberWithSpaces((Tot*btcRate).toFixed(3))
 
 
   } catch (error) {
