@@ -24,28 +24,71 @@ const express = require('express')
 const router = express.Router()
 const path = require('path');
 
+// Format number as strings xxx xxx xxx.xxx
+function numberWithSpaces(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return parts.join(".");
+}
+
+
+// Route for the api json return info
+router.get('/api', function (req, res) {
+  (async function () {
+
+
+
+  return res.send(JSON.stringify(global.vaultZ))
+
+
+  })().catch((error) => {
+    console.error('/api', [ error.message, error.stack ])
+    return res.send(JSON.stringify({'error': 'API error, please contact the pay.btcz.app admin'}))
+  }) // end async function
+})
+
+
+
+
 
 // Route for the index main page
 router.get('/', function (req, res) {
   (async function () {
 
+    let BTC_val = 0;
+    let USD_val = 0;
+    for (item of global.vaultZ.Rates){
+      if(item.code=="USD"){USD_val=item.value}
+      if(item.code=="BTC"){BTC_val=item.value}
+    }
+
+
 
     // Render page
     return res.render(path.join(__dirname + '/../docs/index.html'), {
-        VaultZ_Tot: global.VaultZ_Tot,
-        USD_Tot: global.usdValue,
-        BTC_Tot: global.btcValue,
-        VaultZ_Add_Count: global.AddressesCount,
-        VaultZ_Add_List: global.AddressesList,
-        VaultZ_Add_Bal: global.AddressesBalance,
-        VaultZ_Add_Used_Count: global.VaultZ_used_addresses,
-        BlockHeiht: global.BlockHeight,
-        DateAtBlock: global.DateAtBlock
+        VaultZ_Tot: numberWithSpaces(global.vaultZ.Balance.toFixed(0)),
+
+
+        USD_Tot: numberWithSpaces(USD_val.toFixed(0)),
+        BTC_Tot: numberWithSpaces(BTC_val.toFixed(3)),
+
+
+        VaultZ_Add_Count: global.vaultZ.AddressesCount,
+        VaultZ_Add_Used_Count: global.vaultZ.AddressesInUseCount,
+        BlockHeiht: numberWithSpaces(global.vaultZ.BlockHeight),
+        DateAtBlock: global.vaultZ.BlockHeightDate
     });
+
+
+
+
+
+
+
 
   })().catch((error) => {
     console.error('/', [ error.message, error.stack ])
-    res.status(500).send('500')
+    return res.status(500).send('500')
   }) // end async function
 })
 
@@ -54,5 +97,7 @@ router.get('/', function (req, res) {
 router.use(function (req, res) {
   res.status(404).send('404')
 })
+
+
 
 module.exports = router

@@ -41,7 +41,8 @@
             </div>
 
             <div class="col-sm-12 p-4">
-              <p class="card-text">This is the actual balance of all <%= VaultZ_Add_Used_Count %> used VaultZ addresses at block height <b><%= BlockHeiht %></b>.</p>
+              <p class="card-text">This is the actual balance of all <%= VaultZ_Add_Used_Count %> used VaultZ addresses at block height <b><%= BlockHeiht %></b>.<br>
+              (Check <a href="/api" class="card-link" target="_blank">here</a> for more info)</p>
             </div>
 
             <div class="col-sm-12 text-center">
@@ -77,41 +78,6 @@
 
 
   </body>
-
-
-
-  <script>
-
-    function tableCreate() {
-
-      var tbl = document.getElementById('VaultZ_Add_List');
-
-      var AddStr = "<%= VaultZ_Add_List %>";
-      var VaultZ_Add_List = AddStr.split(",");
-
-      var BalStr = "<%= VaultZ_Add_Bal %>";
-      var VaultZ_Add_Bal = BalStr.split(",");
-
-
-      for (i = 0; i < <%= VaultZ_Add_Count %>; i++){
-
-        var tr = document.createElement('tr');
-        var td_Add = document.createElement('td');
-        var td_Bal = document.createElement('td');
-
-        td_Add.innerHTML = VaultZ_Add_List[i];
-        td_Bal.innerHTML = VaultZ_Add_Bal[i];
-
-        tr.appendChild(td_Add);
-        tr.appendChild(td_Bal);
-        tbl.appendChild(tr);
-
-      }
-
-    }
-
-    //tableCreate();
-  </script>
 
 
 

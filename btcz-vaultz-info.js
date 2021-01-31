@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 The BitcoinZ Project
+ * Copyright 2021 The BitcoinZ Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ const rp = require('request-promise-native')
 const config = require('./config')
 
 const VaultZ = require('./VaultZ-addresses');
-const VaultZadd = VaultZ.addresses
+const VaultZaddr = VaultZ.addresses
 
 
 morgan.token('id', function getId (req) {
@@ -66,110 +66,184 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 
-// Define Global variable
-global.BlockHeight = 0;                     // The Actual block height
-global.DateAtBlock = Date();                // Get the date at block height
 
-global.AddressesCount = VaultZadd.length;   // VaultZ Addresses count
-global.AddressesList = VaultZadd;           // VaultZ Addresses list []
-global.AddressesBalance = [];               // VaultZ Addresses balance []
 
-global.VaultZ_used_addresses = 0;           // VaultZ used addresses count
-global.VaultZ_Tot = 0;                      // VaultZ Actual TOT Balance
 
-global.usdValue = 0;
-global.btcValue = 0;
+
+
+// Define Global VaultZ variables structure
+global.vaultZ = {
+  BlockHeight: 0,
+  BlockHeightDate: Date(),
+  AddressesCount: VaultZaddr.length,
+  AddressesList: VaultZaddr,
+  AddressesInUseCount: 0,
+  Balance: 0,
+  Rates: []
+};
+
+
+
+
+
+
 
 
 // Retreive VaultZ info function
 async function RetreiveVaultZinfo () {
   try {
 
-    let usdRate = 0;
-    let btcRate = 0;
 
-    // get the exchange rate
-    let apiCall = "http://pay.btcz.app/api/get_btcz_rate";
-    let requestOptions = {
-      method: 'GET',
-      uri: apiCall
-    };
+    let apiCallStr = "";
+    let APIreq = {};
+    let apiType = "";
 
-    await rp(requestOptions).then(response => {
-       const objectValue = JSON.parse(response);
-       usdRate = Number(objectValue.USD);
-       btcRate = Number(objectValue.BTC);
-    }).catch((err) => {
-      console.error({ err })
-    });
 
-    // get the block height
-    apiCall = "http://btczexplorer.blockhub.info/api/getblockcount";
-    requestOptions = {
-      method: 'GET',
-      uri: apiCall
-    };
 
-    await rp(requestOptions).then(response => {
-      global.BlockHeight = response;
-    }).catch((err) => {
-      console.error({ err })
-    });
 
-    global.DateAtBlock = Date();
 
-    let CountUsed = 0;
-    let Tot = 0;
-    let i = -1;
-    for (item of VaultZadd){  // loop around the addresses
-      i++;
 
-      // Get the balance of this address
-      apiCall = "http://btczexplorer.blockhub.info/ext/getbalance/"+item;
-      requestOptions = {
-        method: 'GET',
-        uri: apiCall
-      };
 
-      await rp(requestOptions).then(response => {
-        if (!response.includes("address not found.")){
-          CountUsed += 1;
-          global.AddressesBalance[i] = Number(response);
-          Tot += Number(response);
+
+
+    // Set blockchain API informations
+    // Get it from the blockchain API array in config file
+    // Also check if its iquidus or insight
+    for (i = 0; i < config.blockchain.api.length; i++){
+
+      global.vaultZ.BlockHeight = 0;
+      global.vaultZ.BlockHeightDate = Date();
+      global.vaultZ.Balance = 0;
+      global.vaultZ.AddressesInUseCount = 0;
+
+      let apiCallStr_count = "";
+      let apiCallStr_bal = "";
+      apiCallStr = config.blockchain.api[i].url;
+      apiType = config.blockchain.api[i].type;
+
+      if (apiType == "iquidus"){ //     ------------------------------------- If IQUIDUS API
+
+        // Get block height
+        apiCallStr_count = apiCallStr+"/api/getblockcount";
+        APIreq = {method: 'GET', uri: apiCallStr_count};
+        await rp(APIreq).then(response => {
+          global.vaultZ.BlockHeight = response;
+        }).catch((err) => {
+          console.error('RetreiveVaultZinfo get blockchain', [ err.message, err.stack ])
+        });
+
+        // Get adresses balances and used count
+        for (item of VaultZaddr){
+          apiCallStr_bal = apiCallStr+"/ext/getbalance/"+item;
+          APIreq = {method: 'GET', uri: apiCallStr_bal};
+
+          await rp(APIreq).then(response => {
+            if (!response.includes("address not found.") && Number(response)>=10){
+              global.vaultZ.AddressesInUseCount ++;
+              global.vaultZ.Balance += Number(response);
+            }
+          }).catch((err) => {
+            console.error('RetreiveVaultZinfo get blockchain', [ err.message, err.stack ])
+          });
         }
+
+      } else if (apiType == "insight") { //    --------------------------------- If INSIGHT API
+
+        // Get block height
+        apiCallStr_count = apiCallStr+"/api/status";
+        APIreq = {method: 'GET', uri: apiCallStr_count};
+        await rp(APIreq).then(response => {
+          global.vaultZ.BlockHeight = JSON.parse(response).info.blocks;
+        }).catch((err) => {
+          console.error('RetreiveVaultZinfo get blockchain', [ err.message, err.stack ])
+        });
+
+        // Get adresses balances and used count
+        for (item of VaultZaddr){
+          apiCallStr_bal = apiCallStr+"/api/addr/"+item+"/balance";
+          APIreq = {method: 'GET', uri: apiCallStr_bal};
+
+          await rp(APIreq).then(response => {
+            if (!response.includes("Invalid address: Checksum mismatch. Code:1") && Number(response)>=10){
+              global.vaultZ.AddressesInUseCount ++;
+              global.vaultZ.Balance += Number(response)/100000000;
+            }
+          }).catch((err) => {
+            console.error('RetreiveVaultZinfo get blockchain', [ err.message, err.stack ])
+          });
+        }
+
+      }
+
+      if (global.vaultZ.BlockHeight>0){
+        console.log('RetreiveVaultZinfo get blockchain', vaultZ);
+        break;
+      }
+    }
+
+
+    if (global.vaultZ.BlockHeight<1){
+      global.vaultZ = {"error": "No blockchain info set."};
+      console.log('RetreiveVaultZinfo get blockchain', "No blockchain info set.");
+      return;
+    }
+
+
+
+
+    // Set existing currency rates informations
+    // Get it from the rate API array in config file
+    global.vaultZ.Rates = [];
+    for (i = 0; i < config.rate.api.length; i++){
+      apiCallStr = config.rate.api[i];
+      APIreq = {method: 'GET', uri: apiCallStr};
+
+      await rp(APIreq).then(response => {
+         for (item of JSON.parse(response)){
+           if (config.rate.currency.includes(item.code)) {
+             global.vaultZ.Rates.push({"code":item.code,"name":item.name,"rate":item.rate, "value":item.rate*global.vaultZ.Balance})
+           }
+         }
       }).catch((err) => {
-        console.error({ err })
+        console.error('RetreiveVaultZinfo get currency', [ err.message, err.stack ])
       });
 
-    } // End for
+      if (global.vaultZ.Rates.length>0){
+        console.log('RetreiveVaultZinfo get currency', global.vaultZ.Rates);
+        break;
+      }
+    }
 
-    global.VaultZ_used_addresses = CountUsed;
-    global.VaultZ_Tot = numberWithSpaces(Tot.toFixed(0));
+    if (global.vaultZ.Rates.length<1){
+      console.log('RetreiveVaultZinfo get currency', "No currency rates set.");
+    }
 
-    global.usdValue = numberWithSpaces((Tot*usdRate).toFixed(2))
-    global.btcValue = numberWithSpaces((Tot*btcRate).toFixed(3))
+
+
+
 
 
   } catch (error) {
     console.error('RetreiveVaultZinfo function', [ error.message, error.stack ])
-  } // end try
-}
-
-function numberWithSpaces(x) {
-    var parts = x.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    return parts.join(".");
+  }
 }
 
 
-// Call the VaultZ info each 5 minutes.
+
+
+
+
+// Call the VaultZ info each n minutes.
 RetreiveVaultZinfo()
-setInterval(() => RetreiveVaultZinfo(), 60 * 1000 *5)
+setInterval(() => RetreiveVaultZinfo(), 60 * 1000 * config.server.updateEveryMinutes)
+
 
 
 // Startup server
-let server = app.listen(config.port, '127.0.0.1', function () {
-  console.log('BOOTING UP', `Listening on port ${config.port}`)
+let server = app.listen(config.server.port, '127.0.0.1', function () {
+  console.log('BOOTING UP', `Listening on port ${config.server.port}`)
 })
+
+
 
 module.exports = server

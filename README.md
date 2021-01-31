@@ -22,8 +22,8 @@ Clone from git and start the info board:
 
 ```
     git clone https://github.com/MarceluCH/BtcZ-VaultZ-Info.git
-    cd TxtZ
-    npm installe
+    cd BtcZ-VaultZ-Info
+    npm install
     npm start
 ```
 
