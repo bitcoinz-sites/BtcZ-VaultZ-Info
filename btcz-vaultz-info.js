@@ -78,6 +78,7 @@ global.vaultZ = {
   AddressesCount: VaultZaddr.length,
   AddressesList: VaultZaddr,
   AddressesInUseCount: 0,
+  AddressesInUseDetails: [],
   Balance: 0,
   Rates: []
 };
@@ -115,6 +116,7 @@ async function RetreiveVaultZinfo () {
       global.vaultZ.BlockHeightDate = Date();
       global.vaultZ.Balance = 0;
       global.vaultZ.AddressesInUseCount = 0;
+      global.vaultZ.AddressesInUseDetails = [];
 
       let apiCallStr_count = "";
       let apiCallStr_bal = "";
@@ -141,6 +143,7 @@ async function RetreiveVaultZinfo () {
             if (!response.includes("address not found.") && Number(response)>=10){
               global.vaultZ.AddressesInUseCount ++;
               global.vaultZ.Balance += Number(response);
+              global.vaultZ.AddressesInUseDetails.push({"address":item,"balance":Number(response)})
             }
           }).catch((err) => {
             console.error('RetreiveVaultZinfo get blockchain', [ err.message, err.stack ])
@@ -167,6 +170,7 @@ async function RetreiveVaultZinfo () {
             if (!response.includes("Invalid address: Checksum mismatch. Code:1") && Number(response)>=10){
               global.vaultZ.AddressesInUseCount ++;
               global.vaultZ.Balance += Number(response)/100000000;
+              global.vaultZ.AddressesInUseDetails.push({"address":item,"balance":Number(response)/100000000})
             }
           }).catch((err) => {
             console.error('RetreiveVaultZinfo get blockchain', [ err.message, err.stack ])
