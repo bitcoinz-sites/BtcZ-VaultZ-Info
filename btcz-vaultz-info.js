@@ -55,7 +55,7 @@ app.use(bodyParser.json(null))
 // WebApp needed path
 app.use('/qr', express.static('qr'))
 app.use('/css', express.static('docs/css'))
-app.use('/js', express.static('docs/js'))
+//app.use('/js', express.static('docs/js'))
 app.use('/images', express.static('docs/images'))
 app.use(require('./controllers/website'))
 
@@ -64,6 +64,9 @@ app.use(require('./controllers/website'))
 app.set('views', __dirname + '/docs');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
+
+app.engine('js', require('ejs').renderFile);
+app.set('view engine', 'js');
 
 
 
@@ -83,6 +86,7 @@ global.vaultZ = {
   Rates: []
 };
 
+global.BlockHeightNow = 0;
 
 
 

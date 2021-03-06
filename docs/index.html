@@ -12,7 +12,7 @@
 
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
     <title>BtcZ VaultZ Info Board</title>
 
@@ -49,6 +49,47 @@
               <span style="font-size: 1.45rem;"><b><%= VaultZ_Tot %> BTCZ</b></span><br />
               <span class="card-subtitle mb-2 text-muted"> <%= BTC_Tot %> BTC | <%= USD_Tot %> $ </span><br /><br />
             </div>
+
+
+
+            <div class="col-sm-12 text-center">
+              <span style="font-size: 1rem;"><b>Next halving</b></span><br />
+              <span style="font-size: 0.8rem;">(d:h:m:s)</span><br />
+
+
+            <!-- ONLY change the "display" attribut :
+
+                 fulldatetime      Sat Oct 09 2021 10:03:09 GMT+0200 (Central European Summer Time)
+                 countdown1        216d 12h 32m 26s
+                 countdown2        216:11:26:54
+                 full1             216d 12h 32m 26s / Sat Oct 09 2021 09:56:46 GMT+0200 (Central European Summer Time)
+                 full2             216:11:26:54 / Sat Oct 09 2021 09:56:46 GMT+0200 (Central European Summer Time)
+
+            -->
+            <div id="btcz-halving-countdown" display="full2">
+              <script>
+                function load_js() {
+                  var element = document.getElementById("btcz-halving-countdown-script");
+                  if (!!element) element.parentNode.removeChild(element);
+                  var head= document.getElementsByTagName('head')[0];
+                  var script= document.createElement('script');
+                  script.id = "btcz-halving-countdown-script"
+                  script.src= '/js/halvingcountdown.js';
+                  head.appendChild(script);
+                }
+                load_js();
+                setInterval(function(){ load_js();}, 100*1000);
+              </script>
+            </div>
+
+
+
+            <br/>
+          </div>
+
+
+
+
 
             <div class="col-sm-12 card-footer text-muted">
               <div class="row">

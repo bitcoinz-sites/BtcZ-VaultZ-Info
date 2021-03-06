@@ -23,6 +23,7 @@
 const express = require('express')
 const router = express.Router()
 const path = require('path');
+const rp = require('request-promise-native')
 
 // Format number as strings xxx xxx xxx.xxx
 function numberWithSpaces(x) {
@@ -46,6 +47,45 @@ router.get('/api', function (req, res) {
     return res.send(JSON.stringify({'error': 'API error, please contact the pay.btcz.app admin'}))
   }) // end async function
 })
+
+
+
+
+
+
+
+// Route for the api json return info
+router.get('/js/halvingcountdown.js', function (req, res) {
+  (async function () {
+
+
+    let apiCallStr_count = "https://btczexplorer.blockhub.info/api/getblockcount";
+    let APIreq = {method: 'GET', uri: apiCallStr_count};
+    await rp(APIreq).then(response => {
+      global.BlockHeightNow = response;
+    }).catch((err) => {
+      console.error('RetreiveVaultZinfo get blockchain', [ err.message, err.stack ])
+    });
+
+
+
+
+  return res.render(path.join(__dirname + '/../docs/js/halvingcountdown.js'), {
+
+      BlockHeiht: global.BlockHeightNow
+
+  });
+
+
+  })().catch((error) => {
+    console.error('/api', [ error.message, error.stack ])
+    return res.send(JSON.stringify({'error': 'API error, please contact the pay.btcz.app admin'}))
+  }) // end async function
+})
+
+
+
+
 
 
 
@@ -91,6 +131,18 @@ router.get('/', function (req, res) {
     return res.status(500).send('500')
   }) // end async function
 })
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

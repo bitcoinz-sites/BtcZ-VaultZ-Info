@@ -28,3 +28,4 @@ Clone from git and start the info board:
 ```
 
  Your info board will be displayed here : http://localhost:2255
+ For more details see here : http://localhost:2255/api
