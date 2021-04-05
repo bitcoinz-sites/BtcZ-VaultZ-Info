@@ -19,8 +19,6 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
-
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 const express = require('express')
 const app = express()
@@ -33,13 +31,16 @@ const config = require('./config')
 const VaultZ = require('./VaultZ-addresses');
 const VaultZaddr = VaultZ.addresses
 
+const VaultZpayouts = require('./VaultZ-payouts');
+global.VaultZpayoutsINF = VaultZpayouts.payouts
 
 morgan.token('id', function getId (req) {
   return req.id
 })
 
 
-// Application options
+
+// Set application options
 app.use(function (req, res, next) {
   req.id = uuid.v4()
   next()
@@ -51,26 +52,18 @@ app.set('trust proxy', 'loopback')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json(null))
 
-
 // WebApp needed path
 app.use('/qr', express.static('qr'))
 app.use('/css', express.static('docs/css'))
-//app.use('/js', express.static('docs/js'))
 app.use('/images', express.static('docs/images'))
 app.use(require('./controllers/website'))
-
 
 // For EJS rendering
 app.set('views', __dirname + '/docs');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-
 app.engine('js', require('ejs').renderFile);
 app.set('view engine', 'js');
-
-
-
-
 
 
 
@@ -85,35 +78,21 @@ global.vaultZ = {
   Balance: 0,
   Rates: []
 };
-
 global.BlockHeightNow = 0;
 
 
 
-
-
-
-
-// Retreive VaultZ info function
+// Function to retreive VaultZ informations
+// Loop trought the API array (redudency)
 async function RetreiveVaultZinfo () {
   try {
-
 
     let apiCallStr = "";
     let APIreq = {};
     let apiType = "";
 
-
-
-
-
-
-
-
-
-    // Set blockchain API informations
-    // Get it from the blockchain API array in config file
-    // Also check if its iquidus or insight
+    // ----- Set BLOCKCHAIN informations -----
+    // Get it from the blockchain API array in config file. Also check if its iquidus or insight
     for (i = 0; i < config.blockchain.api.length; i++){
 
       global.vaultZ.BlockHeight = 0;
@@ -183,13 +162,14 @@ async function RetreiveVaultZinfo () {
 
       }
 
-      if (global.vaultZ.BlockHeight>0){
+      // break if data pulled correctly on the actual BC API
+      if (global.vaultZ.BlockHeight>0 && global.vaultZ.AddressesInUseCount>0){
         console.log('RetreiveVaultZinfo get blockchain', vaultZ);
         break;
       }
     }
 
-
+    // Return error if no dat pulled
     if (global.vaultZ.BlockHeight<1){
       global.vaultZ = {"error": "No blockchain info set."};
       console.log('RetreiveVaultZinfo get blockchain', "No blockchain info set.");
@@ -197,9 +177,7 @@ async function RetreiveVaultZinfo () {
     }
 
 
-
-
-    // Set existing currency rates informations
+    // ----- Set currency rates informations -----
     // Get it from the rate API array in config file
     global.vaultZ.Rates = [];
     for (i = 0; i < config.rate.api.length; i++){
@@ -216,28 +194,25 @@ async function RetreiveVaultZinfo () {
         console.error('RetreiveVaultZinfo get currency', [ err.message, err.stack ])
       });
 
+      // break if data pulled correctly on the actual rate API
       if (global.vaultZ.Rates.length>0){
         console.log('RetreiveVaultZinfo get currency', global.vaultZ.Rates);
         break;
       }
     }
 
+    // Return error if no data pulled
     if (global.vaultZ.Rates.length<1){
+      global.vaultZ.Rates = [{"error": "No rate info set."}];
       console.log('RetreiveVaultZinfo get currency', "No currency rates set.");
+      return;
     }
-
-
-
-
 
 
   } catch (error) {
     console.error('RetreiveVaultZinfo function', [ error.message, error.stack ])
   }
 }
-
-
-
 
 
 

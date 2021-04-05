@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 The BitcoinZ Project
+ * Copyright 2021 The BitcoinZ Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,28 +36,19 @@ function numberWithSpaces(x) {
 // Route for the api json return info
 router.get('/api', function (req, res) {
   (async function () {
-
-
-
-  return res.send(JSON.stringify(global.vaultZ))
-
-
+    return res.send(JSON.stringify(global.vaultZ))
   })().catch((error) => {
     console.error('/api', [ error.message, error.stack ])
-    return res.send(JSON.stringify({'error': 'API error, please contact the pay.btcz.app admin'}))
+    return res.send(JSON.stringify({'error': 'API error, please contact the btcz.app team'}))
   }) // end async function
 })
 
 
 
 
-
-
-
-// Route for the api json return info
+// Route to the next halving countdown javascript
 router.get('/js/halvingcountdown.js', function (req, res) {
   (async function () {
-
 
     let apiCallStr_count = "https://btczexplorer.blockhub.info/api/getblockcount";
     let APIreq = {method: 'GET', uri: apiCallStr_count};
@@ -67,27 +58,15 @@ router.get('/js/halvingcountdown.js', function (req, res) {
       console.error('RetreiveVaultZinfo get blockchain', [ err.message, err.stack ])
     });
 
-
-
-
-  return res.render(path.join(__dirname + '/../docs/js/halvingcountdown.js'), {
-
+    return res.render(path.join(__dirname + '/../docs/js/halvingcountdown.js'), {
       BlockHeiht: global.BlockHeightNow
-
-  });
-
+    });
 
   })().catch((error) => {
     console.error('/api', [ error.message, error.stack ])
-    return res.send(JSON.stringify({'error': 'API error, please contact the pay.btcz.app admin'}))
+    return res.send(JSON.stringify({'error': 'API error, please contact the btcz.app team'}))
   }) // end async function
 })
-
-
-
-
-
-
 
 
 
@@ -102,46 +81,25 @@ router.get('/', function (req, res) {
       if(item.code=="BTC"){BTC_val=item.value}
     }
 
-
-
     // Render page
     return res.render(path.join(__dirname + '/../docs/index.html'), {
         VaultZ_Tot: numberWithSpaces(global.vaultZ.Balance.toFixed(0)),
 
-
         USD_Tot: numberWithSpaces(USD_val.toFixed(0)),
         BTC_Tot: numberWithSpaces(BTC_val.toFixed(3)),
-
 
         VaultZ_Add_Count: global.vaultZ.AddressesCount,
         VaultZ_Add_Used_Count: global.vaultZ.AddressesInUseCount,
         BlockHeiht: numberWithSpaces(global.vaultZ.BlockHeight),
-        DateAtBlock: global.vaultZ.BlockHeightDate
+        DateAtBlock: global.vaultZ.BlockHeightDate,
+        Payouts: global.VaultZpayoutsINF
     });
-
-
-
-
-
-
-
 
   })().catch((error) => {
     console.error('/', [ error.message, error.stack ])
     return res.status(500).send('500')
   }) // end async function
 })
-
-
-
-
-
-
-
-
-
-
-
 
 
 
