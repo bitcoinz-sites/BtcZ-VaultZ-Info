@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,161 +11,153 @@
     <link rel="icon" type="image/png" sizes="144x144" href="/images/icoBTCZ.png">
 
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet"/>
 
     <title>BtcZ VaultZ Info Board</title>
 
-    <meta name="description" content="The total VaultZ funds at block height <%= BlockHeiht %> is up to <%= VaultZ_Tot %> BTCZ now !">
-    <meta name="Keywords" content="vaultz.btcz.app BTCz BTC Payment Gateway API Crypto Bitcoin Bitcoinz Altcoins Blockchain Cryptography Plugin">
+    <meta name="description"
+          content="The total VaultZ funds at block height <%= BlockHeiht %> is up to <%= VaultZ_Tot %> BTCZ now !">
+    <meta name="Keywords"
+          content="vaultz.btcz.app BTCz BTC Payment Gateway API Crypto Bitcoin Bitcoinz Altcoins Blockchain Cryptography Plugin">
 
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <main class="container mt-3" role="main">
+<main class="container-md" role="main">
 
-      <div class="card">
+    <div class="card">
         <div class="card-body">
-          <div class="row">
+            <div class="row">
 
 
-            <div class="col-xs-2 px-2">
-              <img src="images/icoBTCZ.png" style="width:4rem;" />
-            </div>
-
-            <div class="col-xs-10">
-              <h3 class="card-title">BitcoinZ (BTCZ) </h3>
-              <h6 class="card-subtitle mb-2 text-muted">VaultZ Info Board</h6>
-            </div>
-
-            <div class="col-sm-12 p-4">
-              <p class="card-text">This is the actual balance of all <%= VaultZ_Add_Used_Count %> used VaultZ addresses at block height <b><%= BlockHeiht %></b>.<br>
-              (Check <a href="/api" class="card-link" target="_blank">here</a> for more info)</p>
-            </div>
-
-            <div class="col-sm-12 text-center">
-              <span style="font-size: 1.45rem;"><b><%= VaultZ_Tot %> BTCZ</b></span><br />
-              <span class="card-subtitle mb-2 text-muted"> <%= BTC_Tot %> BTC | <%= USD_Tot %> $ </span><br /><br />
-            </div>
-
-            <div class="col-sm-12">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">VaultZ payouts history [IN DEV]</h4>
-
-                  <table style="width:100%" id="VaultZ-Payouts">
-                    <thead>
-                      <tr>
-                        <th style="width:55%;font-size: 0.9rem;"></th>
-                        <th style="width:15%;font-size: 0.9em;"></th>
-                        <th style="width:35%;font-size: 0.9em;"></th>
-                      </tr>
-                    </thead>
-                    <tbody></tbody>
-                  </table>
-
-
+                <div class="col-xs-2 px-2">
+                    <img src="images/icoBTCZ.png" style="width:4rem;"/>
                 </div>
-              </div>
+
+                <div class="col-xs-10">
+                    <h3 class="card-title">BitcoinZ (BTCZ) </h3>
+                    <h6 class="card-subtitle mb-2 text-muted">VaultZ Info Board</h6>
+                </div>
+
+                <div class="col-sm-12 p-4">
+                    <p class="card-text">This is the actual balance of all <%= VaultZ_Add_Used_Count %> used VaultZ
+                        addresses at block height <b><%= BlockHeiht %></b>.<br>
+                        (Check <a href="/api" class="card-link" target="_blank">here</a> for more info)</p>
+                </div>
+
+                <div class="col-sm-12 text-center">
+                    <span style="font-size: 1.45rem;"><b><%= VaultZ_Tot %> BTCZ</b></span><br/>
+                    <span class="card-subtitle mb-2 text-muted"> <%= BTC_Tot %> BTC | <%= USD_Tot %> $ </span><br/><br/>
+                </div>
+
+                <div class="col-md-12 col-sm-12">
+                    <h4 class="text-center">VaultZ payouts history [IN DEV]</h4>
+                    <table style="width:auto%" id="VaultZ-Payouts" ></table>
+                </div>
+
+
             </div>
-
-
-          </div>
         </div>
 
-        <div class="card-footer text-muted">
-          <div class="row">
-            <div class="col-sm-4 text-center"><a href="https://btcz.rocks" class="card-link" target="_blank">Web Site</a></div>
-            <div class="col-sm-4 text-center"><a href="https://forum.btcz.rocks" class="card-link" target="_blank">Forum</a></div>
-            <div class="col-sm-4 text-center"><a href="https://explorer.btcz.rocks" class="card-link" target="_blank">Block Explorer</a></div>
-          </div>
+        <div class="card-footer text-muted text-center">
+            <div class="row">
+                <div class="col-sm-4 text-center"><a href="https://btcz.rocks" class="card-link" target="_blank">Web
+                    Site</a></div>
+                <div class="col-sm-4 text-center"><a href="https://forum.btcz.rocks" class="card-link" target="_blank">Forum</a>
+                </div>
+                <div class="col-sm-4 text-center"><a href="https://explorer.btcz.rocks" class="card-link"
+                                                     target="_blank">Block Explorer</a></div>
+            </div>
         </div>
 
 
+    </div>
 
-      </div>
 
-
-      <div class="row">
+    <div class="row">
         <div class="col-sm-2 text-center"></div>
         <div class="col-sm-8 text-center">
 
-              <br />
-              <span style="font-size: 1rem;"><b>Next halving</b></span><br />
-              <span style="font-size: 0.8rem;">(d:h:m:s)</span><br />
+            <br/>
+            <span style="font-size: 1rem;"><b>Next halving</b></span><br/>
+            <span style="font-size: 0.8rem;">(d:h:m:s)</span><br/>
 
-              <!-- HALVING COUNTDOWN DIV
-                   ONLY change the "display" attribut :
+            <!-- HALVING COUNTDOWN DIV
+                 ONLY change the "display" attribut :
 
-                   fulldatetime      Sat Oct 09 2021 10:03:09 GMT+0200 (Central European Summer Time)
-                   countdown1        216d 12h 32m 26s
-                   countdown2        216:11:26:54
-                   full1             216d 12h 32m 26s / Sat Oct 09 2021 09:56:46 GMT+0200 (Central European Summer Time)
-                   full2             216:11:26:54 / Sat Oct 09 2021 09:56:46 GMT+0200 (Central European Summer Time)
+                 fulldatetime      Sat Oct 09 2021 10:03:09 GMT+0200 (Central European Summer Time)
+                 countdown1        216d 12h 32m 26s
+                 countdown2        216:11:26:54
+                 full1             216d 12h 32m 26s / Sat Oct 09 2021 09:56:46 GMT+0200 (Central European Summer Time)
+                 full2             216:11:26:54 / Sat Oct 09 2021 09:56:46 GMT+0200 (Central European Summer Time)
 
-              -->
-              <div id="btcz-halving-countdown" display="full2">
+            -->
+            <div id="btcz-halving-countdown" class="col-md-6 offset-md-3" display="full2">
                 <script>
-                  function load_js() {
-                    var element = document.getElementById("btcz-halving-countdown-script");
-                    if (!!element) element.parentNode.removeChild(element);
-                    var head= document.getElementsByTagName('head')[0];
-                    var script= document.createElement('script');
-                    script.id = "btcz-halving-countdown-script"
-                    script.src= '/js/halvingcountdown.js';
-                    head.appendChild(script);
-                  }
+                    function load_js() {
+                        var element = document.getElementById("btcz-halving-countdown-script");
+                        if (!!element) element.parentNode.removeChild(element);
+                        var head = document.getElementsByTagName('head')[0];
+                        var script = document.createElement('script');
+                        script.id = "btcz-halving-countdown-script"
+                        script.src = '/js/halvingcountdown.js';
+                        head.appendChild(script);
+                    }
                 </script>
-              </div>
-
+            </div>
 
 
         </div>
         <div class="col-sm-2 text-center"></div>
-      </div>
+    </div>
 
 
-    </main>
+</main>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script>
-      load_js();
-      setInterval(function(){ load_js();}, 100*1000);
-    </script>
-    <script>
-      var children = <%- JSON.stringify(Payouts) %> ;
-      var table = document.getElementById('VaultZ-Payouts');
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script>
+    load_js();
+    setInterval(function () {
+        load_js();
+    }, 100 * 1000);
+</script>
+<script>
+    var children = <%- JSON.stringify(Payouts) %> ;
+    var table = document.getElementById('VaultZ-Payouts');
       for( var i = 0; i < children.length; i++ ) {
 
         var child = children[i];
 
         if (child['name'] != "") {
           var row = table.insertRow();
-
-          var cellTXT = "<b>"+child['name']+"</b><br />"+child['description'];
-          var cell1 = row.insertCell();
-          cell1.innerHTML = cellTXT;
-          cell1.setAttribute("style","padding: 10px");
-
           cellTXT = "<img src='images/icoBTCZ.png' style='width:1.2rem;' /> "+child['btcz'];
-          var cell2 = row.insertCell();
-          cell2.innerHTML = cellTXT;
 
-          cellTXT = "TXID : <a href='https://explorer.btcz.rocks/tx/"+child['txid']+"'>1eeba5d7ff29009280a1...</a><br />";
-          cellTXT += "Date : "+child['date']+"<br />";
-          cellTXT += "Block: "+child['block'];
-          var cell3 = row.insertCell();
-          cell3.innerHTML = cellTXT;
-        }
-      }
-
-    </script>
-
-  </body>
-
+    cellDATA = "<br/>TXID : <a href='https://explorer.btcz.rocks/tx/"+child['txid']+"'>"+child['txid']+"</a><br />";
+    cellDATA += "Date : "+child['date']+"<br />";
+    cellDATA += "Block: "+child['block'];
+    var card = "<div class = 'card border border-dark'><div className='card-body'> <h5 className='card-title'>"+child['name']+"</h5>"+"<p className='card-text '>"+child['description']+"</p>"+cellTXT+cellDATA+"</div></div>";
+    var cell1 = row.insertCell();
+    cell1.innerHTML = card ;
+    cell1.setAttribute("style","padding: 10px");
+    }
+    }
+</script>
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"
+></script>
+</body>
 
 
 </html>
