@@ -9,8 +9,28 @@ module.exports = {
       'block': "",
       'status': ""
     },
-
-
+    {
+      'name': "Army 2.0 and Social media stuff",
+      'description': "Per Rok, Vandar for Army 2.0 and Social media stuff.</br>" +
+                     "(change of ~5.6M going back to donation address after confirmation)</br>",
+      'btcz': "1,120,000",
+      'txid': "836c5bba759efb56298c3aeedc6cf27e5a84e2d054875ab47d349cb43810cd3f",
+      'date': "Jul 16, 2022",
+      'block': "978929",
+      'status': "DONE"
+    },
+    {
+      'name': "Dev Cost Payout (2022 - 3/4)",
+      'description': "Gra (t1XT7VVG6DTWfQVwjvp28fJcomgf5LCj3w5) 2 million </br>"+
+                       "Nedbear (t1LinaMnKczSYZSpWvmN6QuyguVJBaWu34D) 2 million </br>" +
+                       "Teagus (t1c5SgtiZmyMGXBGwZgmkMAtcCJdqhgVuJY) 2 million </br>" +
+                       "t1fK3SPSkVdcBb9vUVrXk46RrQVqBoNEi4i change address going back to t1fHHnAXxoPWGY77sG5Zw2sFfGUTpW6BcSZ</br>",
+      'btcz': "6,000,000",
+      'txid': "f3d7f078a5c5bc407efb830f97b9f743cfd1310ed29c86c16ef2d116ddc2231d",
+      'date': "Jul 3, 2022",
+      'block': "971748",
+      'status': "DONE"
+    },
     {
       'name': "Dev Cost Payout (2022 - 2/4)",
       'description': "Gra (t1WKUkNhwAnyCLG2go28dncPUWLKqrX8bmB) 1.5M + 2.0M = 3.0M </br>"+
