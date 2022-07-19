@@ -9,6 +9,18 @@ module.exports = {
       'block': "",
       'status': ""
     },
+
+
+    {
+    'name': "Army 2.0 and Social media stuff",
+    'description': "for raising Ad fees by Rok .</br>" +
+                   "(remainder ~3590519.06765882 change will be sent back to SZ address)</br>",
+    'btcz': "2,100,000",
+    'txid': "59dc2d8140f50f76d0083633aee3496367ab28d8dadfd781f2dc5cf15d9d9dc2",
+    'date': "Jul 18, 2022",
+    'block': "980005",
+    'status': "DONE"
+    },
     {
       'name': "Army 2.0 and Social media stuff",
       'description': "Per Rok, Vandar for Army 2.0 and Social media stuff.</br>" +
