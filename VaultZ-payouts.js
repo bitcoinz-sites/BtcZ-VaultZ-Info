@@ -10,7 +10,16 @@ module.exports = {
       'status': ""
     },
 
-
+   {
+    'name': "OTC for tip.cc integration",
+    'description': "To Rok for OTC for tip.cc integration.</br>" +
+                   "(change going back to SZ address)</br>",
+    'btcz': "4,900,000",
+    'txid': "bef5a867e6ca328c173e4f113943fecdf34fb6a59ab172e7fd04462dee4daf88",
+    'date': "AUG 19, 2022",
+    'block': "996821",
+    'status': "DONE"
+    },
     {
     'name': "Army 2.0 and Social media stuff",
     'description': "for raising Ad fees by Rok .</br>" +
@@ -69,7 +78,7 @@ module.exports = {
     {
       'name': "OTC sales",
       'description': "Rok 10k usdt",
-      'btcz': "25,002900,700",
+      'btcz': "25,290,700",
       'txid': "19547295028ac849435f6fd62e227a354657ac87e60700e1d25ae84de74bd9bd",
       'date': "Mar 2, 2022",
       'block': "904307",
